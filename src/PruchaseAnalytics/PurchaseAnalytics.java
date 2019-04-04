@@ -21,7 +21,7 @@ public class PurchaseAnalytics {
         //read from order_products.csv
         //store needed info to Order Class arraylist
         try {
-            BufferedReader reader = new BufferedReader(new FileReader("D:\\WebDEV\\Purchase-Analytics\\untitled\\input\\order_products.csv"));//换成你的文件名
+            BufferedReader reader = new BufferedReader(new FileReader("input/order_products.csv"));//换成你的文件名
             reader.readLine();
             String line = null;
 
@@ -46,7 +46,7 @@ public class PurchaseAnalytics {
        //read from product.csv
        //store info to productHm hashmap, key is productID value is department number
         try {
-            BufferedReader reader = new BufferedReader(new FileReader("D:\\WebDEV\\Purchase-Analytics\\untitled\\input\\products.csv"));//换成你的文件名
+            BufferedReader reader = new BufferedReader(new FileReader("input/products.csv"));//换成你的文件名
             reader.readLine();
             String line = null;
             while ((line = reader.readLine()) != null) {
@@ -93,7 +93,7 @@ public class PurchaseAnalytics {
         //Export report.csv
         try {
             File csv;
-            csv = new File("D:\\WebDEV\\Purchase-Analytics\\untitled\\output\\report.csv");
+            csv = new File("output/report1.csv");
 
             BufferedWriter bw = new BufferedWriter(new FileWriter(csv));
 
