@@ -7,3 +7,5 @@ Then add department number to Order Object.
 Calculate each department's total sale number and total first time order, then stored in salesnumber object.
 Creat another hashmap, put department number as key, salesnumber as value.
 Sorted department number, using hashmap find each department's salenumber then calculate the ration and output to report.csv.
+
+# Please change input and output csv file's address in PurchaseAnalytics.java line 24,49,96 to your local address.
