@@ -5,7 +5,7 @@ import java.text.DecimalFormat;
 import java.util.*;
 
 
-public class readCvs {
+public class PurchaseAnalytics {
 
     public static void main(String[] args) {
         List<Order> orderState = new ArrayList<>();
@@ -18,18 +18,19 @@ public class readCvs {
         double dNum;
         double fNum;
         double percent;
-        //
+        //read from order_products.csv
+        //store needed info to Order Class arraylist
         try {
             BufferedReader reader = new BufferedReader(new FileReader("D:\\WebDEV\\Purchase-Analytics\\untitled\\input\\order_products.csv"));//换成你的文件名
             reader.readLine();
             String line = null;
 
             while ((line = reader.readLine()) != null) {
-                String item[] = line.split(",");//CS
+                String item[] = line.split(",");
                 Order order = new Order();
                 order.productID = item[1];
                 order.addtoCart = Integer.parseInt(item[2]);
-                if (item[3].compareTo("0") == 0) {
+                if (item[3].compareTo("0") == 0) /*check if this order is first time order */{
                     order.firsttimeOrder = Integer.parseInt(item[2]);
                 } else {
                     order.firsttimeOrder = 0;
@@ -42,32 +43,34 @@ public class readCvs {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        //Read From products.csv
+       //read from product.csv
+       //store info to productHm hashmap, key is productID value is department number
         try {
             BufferedReader reader = new BufferedReader(new FileReader("D:\\WebDEV\\Purchase-Analytics\\untitled\\input\\products.csv"));//换成你的文件名
-            reader.readLine();//第一行信息，为标题信息，不用,如果需要，注释掉
+            reader.readLine();
             String line = null;
             while ((line = reader.readLine()) != null) {
-                String item[] = line.split(",");//CS
+                String item[] = line.split(",");
                 productHm.put(item[0], Integer.parseInt(item[3]));
+                //make sure department number is not exist in the array
                 if (!(unsortedDep.contains(Integer.parseInt(item[3])))) {
                     unsortedDep.add(Integer.parseInt(item[3]));
                 }
-                //System.out.println(unsortedDep);
+
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
 
 
-        //Add department number to each Order object
+        //Using hashmap find each productID key add department number to each Order object
         for (int i = 0; i < orderState.size(); i++) {
             String selectedID = orderState.get(i).productID;
             if (productHm.containsKey(selectedID)) {
                 orderState.get(i).DepartmentNumber = productHm.get(selectedID);
             }
         }
-        //put salenumber and firsttimeorder Number into hashmap which key is department number
+        //put salenumber and firsttimeorder Number into departmentHm which key is department number
         for (int i = 0; i < orderState.size(); i++) {
             SaleNumber saleNumber = new SaleNumber();
             int selectedDep = orderState.get(i).DepartmentNumber;
@@ -84,15 +87,16 @@ public class readCvs {
 
 
         }
+        //Sort unsorted department number read from product.csv
         Collections.sort(unsortedDep);
 
-
+        //Export report.csv
         try {
-            File csv; // CSV数据文件
+            File csv;
             csv = new File("D:\\WebDEV\\Purchase-Analytics\\untitled\\output\\report.csv");
 
             BufferedWriter bw = new BufferedWriter(new FileWriter(csv));
-            // 添加新的数据行
+
             bw.write("department_id" + "," + "number_of_orders" + "，" + "number_of_first_orders" + "," +"percentage");
             bw.newLine();
             for(int i = 0;i<unsortedDep.size();i++ ){
